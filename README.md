@@ -68,6 +68,30 @@ response.local_port     # => 51601
 response.local_address  # => "..."
 ```
 
+#### Source Type: `paypal`
+```ruby
+payment_request_source = CheckoutSdk::PaymentRequestSource.new
+payment_request_source.type = "paypal"
+payment_request_source.invoice_number = "tok_..."
+payment_request_source.recipient_name = "mustermann"
+payment_request_source.logo_url = "www.png"
+
+api_resource = CheckoutSdk::ApiResource.new
+
+# Send API call
+response = api_resource.request_payment(payment_request_source)
+
+# response parsing
+response.data           # => {...}
+response.body           # => "..."
+response.headers        # => {...}
+response.remote_ip      # => "..."
+response.status         # => 200
+response.remote_ip      # => "..."
+response.local_port     # => 51601
+response.local_address  # => "..."
+```
+
 #### Source Type: `id`
 
 ```ruby
