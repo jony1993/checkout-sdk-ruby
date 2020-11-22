@@ -90,6 +90,11 @@ RSpec.describe CheckoutSdk::PaymentRequestSource do
       stc: stc
     }
   }
+  let(:expected_sofort_source) {
+    {
+      type: type
+    }
+  }
 
   def get_keys(hash)
     hash.map do |k, v|
@@ -125,6 +130,14 @@ RSpec.describe CheckoutSdk::PaymentRequestSource do
         payment_request_source.type = "paypal"
 
         expect(get_keys(payment_request_source.data[:source])).to eql(get_keys(expected_paypal_source))
+      end
+    end
+
+    context "sofort" do
+      it "uses sofort settings" do
+        payment_request_source.type = "sofort"
+
+        expect(get_keys(payment_request_source.data[:source])).to eql(get_keys(expected_sofort_source))
       end
     end
 

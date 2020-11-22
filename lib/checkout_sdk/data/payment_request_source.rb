@@ -81,6 +81,7 @@ class CheckoutSdk::PaymentRequestSource
     when "card"     then card_type
     when "customer" then customer_type
     when "paypal"   then paypal_type
+    when "sofort"   then sofort_type
     end
   end
 
@@ -150,6 +151,12 @@ class CheckoutSdk::PaymentRequestSource
       recipient_name: recipient_name,
       logo_url: logo_url,
       stc: stc
+    }
+  end
+
+  def sofort_type
+    {
+      type: type
     }
   end
 end
