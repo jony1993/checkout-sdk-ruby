@@ -22,6 +22,10 @@ RSpec.describe CheckoutSdk::PaymentRequestSource do
   let(:token) { "tok_4gzeau5o2uqubbk6fufs3m7p54" }
   let(:customer_id) { "12345678" }
   let(:customer_email) { "elmo@friends.sesame" }
+  let(:invoice_number) { "RE1234" }
+  let(:recipient_name) { "Max Mustermann" }
+  let(:logo_url) { "https://dummyimage.com/600x400/000/fff" }
+  let(:stc) {}
   let(:expected_card_source) {
     {
       type: type,
@@ -77,6 +81,15 @@ RSpec.describe CheckoutSdk::PaymentRequestSource do
       email: customer_email
     }
   }
+  let(:expected_paypal_source) {
+    {
+      type: type,
+      invoice_number: invoice_number,
+      recipient_name: recipient_name,
+      logo_url: logo_url,
+      stc: stc
+    }
+  }
 
   def get_keys(hash)
     hash.map do |k, v|
@@ -104,6 +117,14 @@ RSpec.describe CheckoutSdk::PaymentRequestSource do
         payment_request_source.type = "id"
 
         expect(get_keys(payment_request_source.data[:source])).to eql(get_keys(expected_id_source))
+      end
+    end
+
+    context "paypal" do
+      it "uses paypal settings" do
+        payment_request_source.type = "paypal"
+
+        expect(get_keys(payment_request_source.data[:source])).to eql(get_keys(expected_paypal_source))
       end
     end
 

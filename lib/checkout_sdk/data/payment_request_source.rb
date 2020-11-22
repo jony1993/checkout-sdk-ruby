@@ -8,9 +8,9 @@ class CheckoutSdk::PaymentRequestSource
                 :shipping_phone_number, :threeds_enabled, :threeds_attempt_n3d, :threeds_eci,
                 :threeds_cryptogram, :threeds_xid, :threeds_version, :previous_payment_id, :risk_enabled,
                 :success_url, :failure_url, :payment_ip, :recipient_dob, :recipient_account_number,
-                :recipient_zip, :recipient_last_name, :processing_mid, :metadata, :cvv, :id, :card_number,
+                :recipient_zip, :recipient_last_name, :recipient_name, :processing_mid, :metadata, :cvv, :id, :card_number,
                 :card_expiry_month, :card_expiry_year, :card_name, :card_cvv, :card_stored, :customer_id,
-                :customer_email
+                :customer_email, :invoice_number, :logo_url, :stc
 
   def data
     { source: source(type),
@@ -80,6 +80,7 @@ class CheckoutSdk::PaymentRequestSource
     when "token"    then token_type
     when "card"     then card_type
     when "customer" then customer_type
+    when "paypal"   then paypal_type
     end
   end
 
@@ -139,6 +140,16 @@ class CheckoutSdk::PaymentRequestSource
       type: type,
       id: customer_id,
       email: customer_email
+    }
+  end
+
+  def paypal_type
+    {
+      type: type,
+      invoice_number: invoice_number,
+      recipient_name: recipient_name,
+      logo_url: logo_url,
+      stc: stc
     }
   end
 end
